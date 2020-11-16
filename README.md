@@ -10,6 +10,7 @@ Continuando con la actividad vista en clases de JavaScript. Deberá realizar las
     - Los valores del input cantidad deben ser numéricos, con un valor mínimo de 1.
     - En caso de que el usuario ingrese un valor igual o menor a 0 se debe arrojar un alert() indicando su error.
     - *Ejemplo del Modal:*
-![Ejemplo Modal](./modal.PNG)
+    
+    ![Ejemplo Modal](./modal.PNG)
 
 **Nota**: todos los elementos y eventos de inputs o botones creados con “innerHTML y Template String” deben ser capturados y ejecutados utilizando el DOM **(No usar jQuery).**
