@@ -40,7 +40,9 @@ const addPokemon = async (url) => {
     const res = await fetch(url);
     const data = await res.json();
     const { name } = data;
+    // Utilizamos la desetructuración para obtener la propiedad front_default de la propiedad sprites
     const { front_default } = data.sprites;
+    // Mapeamos los stats del pokemon para solo obtener el nombre y puntaje de cada una
     const stats = data.stats.map(stat => {
       return {
         name: stat.stat.name,
@@ -55,8 +57,8 @@ const addPokemon = async (url) => {
 
 // innerHTML y Template String
 const crearLista = () => {
-  document.getElementById("lista-pokemones").innerHTML = pokemones.map(pokemon => `
-  <li class="mb-2">${pokemon.name} <button class="btn btn-info ml-2" onclick="addPokemon('${pokemon.url.toString()}');">Agregar</button></li>`).join('');
+  const lista = pokemones.map(poke => `<li class="mb-2">${poke.name} <button class="btn btn-info ml-2" onclick="addPokemon('${poke.url.toString()}');">Agregar</button></li>`);
+  document.getElementById("lista-pokemones").innerHTML = lista.join('');
 }
 
 const crearPokemonCard = (name, stats, imageSrc) => {
@@ -70,7 +72,13 @@ const crearPokemonCard = (name, stats, imageSrc) => {
 }
 
 const misPokemonesCards = () => {
-  document.getElementById("pokemon-card").innerHTML = misPokemones.map((pokemon, i) => `
+  document.getElementById("pokemon-card").innerHTML = misPokemones.map((pokemon, i) => pokemonCard(pokemon, i) ).join('');
+  // Utilizamos el join que nuestro arreglo pase a ser solo un conjunto de código HTML
+}
+
+const pokemonCard = (pokemon, i) => {
+  // Generamos el HTML de cada card
+  return `
     <div class="col-xs-12 col-md-6 mb-2">
       <div class="card">
         <div class="card-body">
@@ -81,7 +89,7 @@ const misPokemonesCards = () => {
             </div>
             <div class="col-sm-12 col-md-6">
               <div class="card-text">
-                ${pokemon.stats.map(stat => `<div><strong>${stat.name}: </strong><span>${stat.base_stat}</span></div>`).join('')}
+                ${ crearStats ( pokemon.stats ) }
                 <div class="d-flex justify-content-center">
                   <button class="btn btn-danger" onclick="deleteCard(${i})">Eliminar</button>
                 </div>
@@ -90,7 +98,12 @@ const misPokemonesCards = () => {
           </div>
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+}
+
+const crearStats = (stats) => {
+  // Utilizamos .map para mutar el arreglo y retornar un div con el nombre en negrita y un span con el valor del stat
+  return stats.map(stat => `<div><strong>${stat.name}: </strong><span>${stat.base_stat}</span></div>`).join('');
 }
 
 const deleteCard = (index) => {
